@@ -1,74 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
     [Header("Set in Inspector")]
-    // Prefab for instantiating attackers 
-    public GameObject attackerPrefab;
+    public GameObject attackerPrefab; // Prefab for instantiating attackers
 
-    // Speed at which the Spawner moves
-    public float speed = 1f;
+    public float speed = 1f; // Speed at which the Spawner moves
+    public float leftAndRightEdge = 10f; // Movement boundary
+    public float chanceToChangeDirections = 0.1f; // Chance to change direction
+    public float secondsBetweenSpawns = 1f; // Spawn rate
 
-    // Distance at which the Spawner moves
-    public float leftAndRightEdge = 10f;
-
-    // Chance that the Spawner will change directions
-    public float chanceToChangeDirections = 0.1f;
-
-    // Rate at which attackers will be instantiated
-    public float secondsBetweenAttackerSpawn = 1f;
-    public float chanceforAttacker = 0.5f;
-
-    // Start is called before the first frame update
     void Start()
-    { // Dropping Attackers every second
-        Invoke("SpawnAttacker", 2f);
+    {
+        // Start spawning attackers every few seconds
+        InvokeRepeating("SpawnAttacker", 2f, secondsBetweenSpawns);
     }
 
     void SpawnAttacker()
     {
-        void SpawnAttacker()
-        {
-            // Schedule the next attacker spawn
-            Invoke("SpawnAttacker", secondsBetweenAttackerSpawn);
-
-            // Instantiate the attacker at the spawner's position
-            GameObject newAttacker = Instantiate(attackerPrefab, transform.position, Quaternion.identity);
-
-            // Set the spawner as the parent of the attacker
-            newAttacker.transform.parent = transform;
-
-            // (Optional) Set attacker movement relative to the spawner
-            AttackerType();
-        }
-
-
+        // Instantiate attacker at the spawner's position
+        GameObject newAttacker = Instantiate(attackerPrefab, transform.position, Quaternion.identity);
     }
 
-    void AttackerType()
-    {
-
-        float randomValue = Random.value;
-
-    
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        // Basic Movement
-
+        // Move spawner left and right along the z-axis
         Vector3 pos = transform.position;
-
-        pos.z += speed * Time.deltaTime; // Due to my camera's orientation, I changed to z direction
-
+        pos.z += speed * Time.deltaTime;
         transform.position = pos;
 
-        // Changing Direction
+        // Reverse direction when hitting movement boundaries
         if (pos.z < -leftAndRightEdge)
         {
             speed = Mathf.Abs(speed); // Move right
@@ -78,13 +41,13 @@ public class Spawner : MonoBehaviour
             speed = -Mathf.Abs(speed); // Move left
         }
     }
+
     void FixedUpdate()
     {
-        // Changing Direction Randomly is now t
-
+        // Random chance to change direction
         if (Random.value < chanceToChangeDirections)
         {
-            speed *= -1; // Change direction
+            speed *= -1;
         }
     }
 }

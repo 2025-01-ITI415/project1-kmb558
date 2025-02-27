@@ -9,7 +9,6 @@ public class AppleTree : MonoBehaviour
     [Header("Set in Inspector")]
     // Prefab for instantiating apples + unique types
     public GameObject applePrefab;
-    public GameObject GameOverScreenPrefab;
 
 
     // Speed at which the AppleTree moves

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8121860302787806510}
   - component: {fileID: 6437268891740846850}
   - component: {fileID: 6972346504058294829}
+  - component: {fileID: -4862784353924626625}
   m_Layer: 0
   m_Name: Attacker
   m_TagString: Attacker
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.51, y: 2.54, z: 0.55}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -129,11 +130,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &6972346504058294829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,10 +142,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2342607360760036584}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa7230a53ed4c4ed7857d1c1a85e763e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -6
-  xDestroyThreshold: 10
+  speed: 5
+  destroyDistance: 40
+  pushBackForce: 10
+  pushUpForce: 5
+--- !u!114 &-4862784353924626625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2342607360760036584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb98d2b240c064912a4334926f8539b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pushForce: 40

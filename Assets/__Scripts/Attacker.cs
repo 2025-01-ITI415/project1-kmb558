@@ -5,17 +5,47 @@ using UnityEngine;
 public class Attacker : MonoBehaviour
 {
     public float speed = 5f;  // Speed of movement
-    public float xDestroyThreshold = 10f; // X position where apple disappears
+    public float destroyDistance = 40f; // Distance to destroy after moving
+    public float pushBackForce = 10f;  // Force applied on collision
+    public float pushUpForce = 5f; // Vertical force to make it "fly"
+    private Vector3 spawnPosition;
+    private Rigidbody rb; // Rigidbody component
+
+    void Start()
+    {
+        spawnPosition = transform.position;
+        rb = GetComponent<Rigidbody>();
+
+        // If no Rigidbody, add one
+        if (rb == null)
+        {
+            rb = gameObject.AddComponent<Rigidbody>();
+        }
+
+        rb.isKinematic = false; // Allow physics-based movement
+        rb.useGravity = true; // Optional: enable gravity if needed
+    }
 
     void Update()
     {
-        // Move the apple along the x-axis instead of y
+        // Move attacker along the x-axis
         transform.position += Vector3.right * speed * Time.deltaTime;
 
-        // Check if the apple has moved past the threshold on the x-axis
-        if (Mathf.Abs(transform.position.x) > xDestroyThreshold)
+        // Destroy after traveling set distance
+        if (Vector3.Distance(spawnPosition, transform.position) >= destroyDistance)
         {
             Destroy(gameObject);
+        }
+    }
+
+    // Apply force when colliding with the player
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player")) // Ensure the player has this tag
+        {
+            Vector3 pushDirection = (transform.position - collision.transform.position).normalized;
+            pushDirection.y = 0; // Keep force horizontal
+            rb.AddForce(pushDirection * pushBackForce + Vector3.up * pushUpForce, ForceMode.Impulse);
         }
     }
 }

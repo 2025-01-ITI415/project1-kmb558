@@ -15,8 +15,7 @@ public class Apple : MonoBehaviour
             Destroy(this.gameObject);
 
 
-            // Call the public AppleDestroyed() method of apScript
-            apScript.AppleDestroyed();
+      
 
         }
     }
