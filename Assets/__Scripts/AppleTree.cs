@@ -4,57 +4,51 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class AppleTree : MonoBehaviour
 {
     [Header("Set in Inspector")]
-    // Prefab for instantiating attackers 
-    public GameObject attackerPrefab;
+    // Prefab for instantiating apples + unique types
+    public GameObject applePrefab;
+    public GameObject GameOverScreenPrefab;
 
-    // Speed at which the Spawner moves
+
+    // Speed at which the AppleTree moves
     public float speed = 1f;
 
-    // Distance at which the Spawner moves
+    // Distance at which the AppleTree moves
     public float leftAndRightEdge = 10f;
 
-    // Chance that the Spawner will change directions
+    // Chance that the AppleTree will change directions
     public float chanceToChangeDirections = 0.1f;
 
-    // Rate at which attackers will be instantiated
-    public float secondsBetweenAttackerSpawn = 1f;
-    public float chanceforAttacker = 0.5f;
+    // Rate at which Apple will be instantiated
+    public float secondsBetweenAppleDrops = 1f;
 
     // Start is called before the first frame update
     void Start()
-    { // Dropping Attackers every second
-        Invoke("SpawnAttacker", 2f);
+    { // Dropping apples every second
+        Invoke("DropApple", 2f);
     }
 
-    void SpawnAttacker()
+    void DropApple()
     {
-        void SpawnAttacker()
-        {
-            // Schedule the next attacker spawn
-            Invoke("SpawnAttacker", secondsBetweenAttackerSpawn);
 
-            // Instantiate the attacker at the spawner's position
-            GameObject newAttacker = Instantiate(attackerPrefab, transform.position, Quaternion.identity);
+        Invoke("DropApple", secondsBetweenAppleDrops);
 
-            // Set the spawner as the parent of the attacker
-            newAttacker.transform.parent = transform;
-
-            // (Optional) Set attacker movement relative to the spawner
-            AttackerType();
-        }
-
+        AppleType();
 
     }
 
-    void AttackerType()
+    void AppleType()
     {
 
         float randomValue = Random.value;
 
-    
+
+        {
+            GameObject apple = Instantiate(applePrefab);
+            applePrefab.transform.position = transform.position;
+        }
     }
 
     // Update is called once per frame
