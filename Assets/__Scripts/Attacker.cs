@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Required for scene reloading
 
 public class Attacker : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Attacker : MonoBehaviour
     public float pushBackForce = 10f;  // Force applied on collision
     public float pushUpForce = 5f; // Vertical force to make it "fly"
     private Vector3 spawnPosition;
-    private Rigidbody rb; // Rigidbody component
+    private Rigidbody rb; // Rigidbody 
 
     void Start()
     {
@@ -46,6 +47,20 @@ public class Attacker : MonoBehaviour
             Vector3 pushDirection = (transform.position - collision.transform.position).normalized;
             pushDirection.y = 0; // Keep force horizontal
             rb.AddForce(pushDirection * pushBackForce + Vector3.up * pushUpForce, ForceMode.Impulse);
+        }
+
+        if (collision.gameObject.CompareTag("GameOverTrigger")) // Tag must match
+        {
+            GameOver();
+        }
+
+        void GameOver()
+        {
+            Debug.Log("Game Over!");
+            // Example: Restart the scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            // OR: Show a UI Game Over screen instead
+
         }
     }
 }
